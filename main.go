@@ -65,7 +65,7 @@ func Home(c echo.Context) error {
 
 func sendMessage(c echo.Context) error {
 	message := c.FormValue("message")
-	newMessage := Message{
+	newMessage := Message {
 		ID:        "2", 
 		Name:      "User", 
 		Message:   message,
