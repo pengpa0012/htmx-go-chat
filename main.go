@@ -72,7 +72,11 @@ func sendMessage(c echo.Context) error {
 		CreatedAt: "now", 
 	}
 	messages = append(messages, newMessage)
-	return c.Render(http.StatusOK, "chat.html", messages)
+	return c.Render(http.StatusOK, "chat.html", newMessage)
+}
+
+func getMessages(c echo.Context) error {
+	return c.Render(http.StatusOK, "chats.html", messages)
 }
 
 func main() {
@@ -84,6 +88,7 @@ func main() {
 	
 	// e.GET("/ws", handleWebSocket)
 	e.GET("/", Home)
+	e.GET("/getMessages", getMessages)
 	e.POST("/sendMessage", sendMessage)
 	e.Logger.Fatal(e.Start(":8080"))
 }

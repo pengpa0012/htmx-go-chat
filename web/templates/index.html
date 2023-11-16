@@ -6,11 +6,12 @@
   <title>HTMX-GO CHAT</title>
   <script src="https://unpkg.com/htmx.org@1.9.8"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../connection/socket.js" defer></script>
 </head>
 <body>
   <div class="max-w-5xl mx-auto p-5">
-    <div id="chat" class="border-2 rounded-md mb-4 min-h-[500px] p-4"></div>
-    <form hx-post="/sendMessage" hx-target="#chat">
+    <div class="border-2 rounded-md mb-4 min-h-[500px] max-h-[600px] overflow-y-scroll p-4" hx-get="/getMessages" hx-trigger="load"></div>
+    <form hx-post="/sendMessage" hx-target=".chats li:last-child " hx-swap="afterend">
       <div class="flex gap-4">
         <input type="text" name="message" class="border-2 rounded-md p-2 flex-1 focus:outline-none" placeholder="Send Message...">
         <button type="submit" class="bg-green-500 hover:bg-green-600 rounded-md py-2 px-4 text-white">Send</h1>
