@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="max-w-5xl mx-auto p-5">
-    <div class="border-2 rounded-md mb-4 min-h-[500px] max-h-[600px] overflow-y-scroll p-4" hx-get="/getMessages" hx-trigger="load"></div>
+    <div class="border-2 rounded-md mb-4 h-[500px] overflow-y-scroll p-4" hx-get="/getMessages" hx-trigger="load"></div>
     <form hx-post="/sendMessage" hx-target=".chats li:last-child " hx-swap="afterend">
       <div class="flex gap-4">
         <input type="text" name="message" class="border-2 rounded-md p-2 flex-1 focus:outline-none" placeholder="Send Message...">
