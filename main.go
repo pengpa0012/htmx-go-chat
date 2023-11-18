@@ -2,13 +2,13 @@ package main
 
 import (
 	"io"
+	// "fmt"
 	"html/template"
 	"net/http"
 	"github.com/labstack/echo/v4"
+	// "github.com/labstack/echo/v4/middleware"
 	"github.com/gorilla/websocket"
 )
-// ***Implement first the chat app***
-// Then proceeds to channels and user creation
 
 type Message struct {
 	ID string
@@ -85,7 +85,8 @@ func main() {
     templates: template.Must(template.ParseGlob("web/templates/*.html")),
 	}
 	e.Renderer = t
-	
+	e.Static("/connection", "web/connection")
+
 	// e.GET("/ws", handleWebSocket)
 	e.GET("/", Home)
 	e.GET("/getMessages", getMessages)
