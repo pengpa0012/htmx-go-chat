@@ -2,11 +2,10 @@ package main
 
 import (
 	"io"
-	// "fmt"
+	"fmt"
 	"html/template"
 	"net/http"
 	"github.com/labstack/echo/v4"
-	// "github.com/labstack/echo/v4/middleware"
 	"github.com/gorilla/websocket"
 )
 
@@ -39,29 +38,29 @@ func Home(c echo.Context) error {
 	return c.Render(http.StatusOK, "index.html", "/")
 }
 
-// func handleWebSocket(c echo.Context) error {
-// 	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer conn.Close()
+func handleWebSocket(c echo.Context) error {
+	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 
-// 	fmt.Println("Client connected")
+	fmt.Println("Client connected")
 
-// 	for {
-// 		messageType, p, err := conn.ReadMessage()
-// 		if err != nil {
-// 			fmt.Println(err)
-// 			return err
-// 		}
+	for {
+		messageType, p, err := conn.ReadMessage()
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
 
-// 		err = conn.WriteMessage(messageType, p)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 			return err
-// 		}
-// 	}
-// }
+		err = conn.WriteMessage(messageType, p)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+}
 
 func sendMessage(c echo.Context) error {
 	message := c.FormValue("message")
@@ -87,7 +86,7 @@ func main() {
 	e.Renderer = t
 	e.Static("/connection", "web/connection")
 
-	// e.GET("/ws", handleWebSocket)
+	e.GET("/ws", handleWebSocket)
 	e.GET("/", Home)
 	e.GET("/getMessages", getMessages)
 	e.POST("/sendMessage", sendMessage)
