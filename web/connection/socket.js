@@ -4,6 +4,11 @@ function setupWebSocket() {
   socket.onmessage = function (event) {
     // Handle incoming messages from the WebSocket
     console.log(event)
+    const newMessage = JSON.parse(event.data);
+    const chatDiv = document.getElementById("chats");
+    const messageElement = document.createElement("p");
+    messageElement.textContent = newMessage.Message;
+    chatDiv.appendChild(messageElement);
   };
 }
 
