@@ -1,5 +1,5 @@
-<ul class="chats">
+<ul class="chats flex flex-col">
   {{range .}}
-    <li class="chat">{{.Message}}</li>
+    <li class="chat bg-green-500 text-white rounded-md p-2 mb-2 self-start">{{.Message}}</li>
   {{end}}
 </ul>
