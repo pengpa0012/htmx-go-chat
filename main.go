@@ -54,6 +54,8 @@ func handleWebSocket(c echo.Context) error {
 			return err
 		}
 
+		fmt.Println(messageType, p)
+
 		err = conn.WriteMessage(messageType, p)
 		if err != nil {
 			fmt.Println(err)
@@ -62,17 +64,17 @@ func handleWebSocket(c echo.Context) error {
 	}
 }
 
-func sendMessage(c echo.Context) error {
-	message := c.FormValue("message")
-	newMessage := Message {
-		ID:        "2", 
-		Name:      "User", 
-		Message:   message,
-		CreatedAt: "now", 
-	}
-	messages = append(messages, newMessage)
-	return c.Render(http.StatusOK, "chat.html", newMessage)
-}
+// func sendMessage(c echo.Context) error {
+// 	message := c.FormValue("message")
+// 	newMessage := Message {
+// 		ID:        "2", 
+// 		Name:      "User", 
+// 		Message:   message,
+// 		CreatedAt: "now", 
+// 	}
+// 	messages = append(messages, newMessage)
+// 	return c.Render(http.StatusOK, "chat.html", newMessage)
+// }
 
 func getMessages(c echo.Context) error {
 	return c.Render(http.StatusOK, "chats.html", messages)
@@ -89,6 +91,6 @@ func main() {
 	e.GET("/ws", handleWebSocket)
 	e.GET("/", Home)
 	e.GET("/getMessages", getMessages)
-	e.POST("/sendMessage", sendMessage)
+	// e.POST("/sendMessage", sendMessage)
 	e.Logger.Fatal(e.Start(":8080"))
 }
