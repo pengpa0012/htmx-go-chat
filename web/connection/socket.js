@@ -4,6 +4,7 @@ function setupWebSocket() {
 
   socket.onmessage = function (event) {
     // Handle incoming messages from the WebSocket
+    console.log(event)
     newMessage(event)
   };
 
@@ -19,9 +20,9 @@ function setupWebSocket() {
 function newMessage (event) {
   console.log(event)
   const newMessage = event.data
-  const chatDiv = document.getElementById("chats");
-  const messageElement = document.createElement("p");
-  messageElement.textContent = newMessage.Message;
+  const chatDiv = document.querySelector(".chats");
+  const messageElement = document.createElement("li");
+  messageElement.textContent = newMessage;
   chatDiv.appendChild(messageElement);
 }
 

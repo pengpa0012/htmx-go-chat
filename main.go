@@ -20,6 +20,8 @@ type Template struct {
 	templates *template.Template
 }
 
+var clients = make(map[*websocket.Conn]bool)
+
 var messages = []Message {
 	{ID: "1", Name: "Test", Message: "Hello", CreatedAt: "test"},
 }
@@ -47,6 +49,8 @@ func handleWebSocket(c echo.Context) error {
 
 	fmt.Println("Client connected")
 
+	clients[conn] = true
+
 	for {
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
@@ -55,11 +59,16 @@ func handleWebSocket(c echo.Context) error {
 		}
 
 		fmt.Println(messageType, p)
+		receivedMessage := string(p)
+		fmt.Printf("Received message: %s\n", receivedMessage)
 
-		err = conn.WriteMessage(messageType, p)
-		if err != nil {
-			fmt.Println(err)
-			return err
+		// Broadcast the message to all connected clients
+		for clientConn := range clients {
+			err := clientConn.WriteMessage(messageType, p)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
 		}
 	}
 }
