@@ -16,6 +16,12 @@ type Message struct {
 	CreatedAt string
 }
 
+// TODOS
+// Same the messages creating on websockets
+// Load it when new client is open
+// Add timestamps
+// Channels and rooms
+
 type Template struct {
 	templates *template.Template
 }

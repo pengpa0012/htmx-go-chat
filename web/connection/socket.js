@@ -11,8 +11,9 @@ function setupWebSocket() {
   const form = document.getElementById("form")
   form.addEventListener("submit", e => {
     e.preventDefault()
-    console.log("test")
-    socket.send("test")
+    const message = e.target[0].value
+    console.log(e)
+    socket.send(message)
   })
 }
 
@@ -22,6 +23,7 @@ function newMessage (event) {
   const newMessage = event.data
   const chatDiv = document.querySelector(".chats");
   const messageElement = document.createElement("li");
+  messageElement.classList = "bg-green-500 text-white rounded-md p-2 mb-2 self-end"
   messageElement.textContent = newMessage;
   chatDiv.appendChild(messageElement);
 }
