@@ -16,14 +16,13 @@ type Message struct {
 	CreatedAt string
 }
 
-// TODOS
-// Same the messages creating on websockets
-// Load it when new client is open
-// Add timestamps
-// Channels and rooms
-
 type Template struct {
 	templates *template.Template
+}
+
+type Client struct {
+	conn    *websocket.Conn
+	clientID string
 }
 
 var clients = make(map[*websocket.Conn]bool)
@@ -53,7 +52,13 @@ func handleWebSocket(c echo.Context) error {
 	}
 	defer conn.Close()
 
-	fmt.Println("Client connected")
+	// Create a new client with a unique clientID
+	client := &Client{
+		conn:    conn,
+		clientID: fmt.Sprintf("%p", conn),
+	}
+
+	fmt.Printf("Client connected: %s\n", client.clientID)
 
 	clients[conn] = true
 
@@ -63,9 +68,17 @@ func handleWebSocket(c echo.Context) error {
 			fmt.Println(err)
 			return err
 		}
-
-		fmt.Println(messageType, p)
 		receivedMessage := string(p)
+
+		newMessage := Message {
+			ID:        client.clientID, 
+			Name:      "User", 
+			Message:   receivedMessage,
+			CreatedAt: "now", 
+		}
+
+		messages = append(messages, newMessage)
+
 		fmt.Printf("Received message: %s\n", receivedMessage)
 
 		// Broadcast the message to all connected clients
